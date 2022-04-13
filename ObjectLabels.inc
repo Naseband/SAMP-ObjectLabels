@@ -145,7 +145,7 @@ Returns 1 on success, 0 otherwise (label does not exist).
 
 // ----------------------------------------------------
 
-#define OBJECT_LABEL_MAX_TEMP_TEXT 		512 // Max. temporary array size for storing texts (used in SetObjectLabelModelData)
+#define OBJECT_LABEL_MAX_TEMP_TEXT 		512 // Max. temporary array size for storing texts (used in UpdateObjectLabelText)
 #define OL_EXTRA 						-420133769
 
 // ----------------------------------------------------
@@ -426,6 +426,8 @@ stock UpdateObjectLabelText(id, const text[] = "")
 	{
 		new prev_text[OBJECT_LABEL_MAX_TEMP_TEXT], wa[1], w;
 
+		// Get the text from the current index and then remove it (it might change)
+
 		GetDynamicObjectMaterialText(g_LabelData[id][ol_ObjectID], g_LabelData[id][ol_LastMaterialIndex], prev_text, w, wa, w, w, w, w, w, sizeof(prev_text), sizeof(wa));
 		RemoveDynamicObjectMaterialText(g_LabelData[id][ol_ObjectID], g_LabelData[id][ol_LastMaterialIndex]);
 
@@ -447,8 +449,6 @@ stock SetObjectLabelModelData(id, modelid = OBJECT_LABEL_MODEL, material_index =
 {
 	if(!IsValidObjectLabel(id))
 		return 0;
-
-	// Get the text from the current index and then remove it (it might change)
 
 	SetDynamicObjectModel(g_LabelData[id][ol_ObjectID], modelid);
 	g_LabelData[id][ol_ModelID] = modelid;
